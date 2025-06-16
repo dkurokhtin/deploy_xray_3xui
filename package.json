@@ -1,0 +1,16 @@
+{
+  "name": "xray-3x-ui-deploy",
+  "version": "1.0.0",
+  "description": "Deployment scripts for Xray with 3X-UI",
+  "main": "register.js",
+  "scripts": {
+    "register": "node register.js",
+    "update": "node updateBalancer.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.0",
+    "mongodb": "^5.1.0",
+    "ssh2": "^1.13.0"
+  }
+}
