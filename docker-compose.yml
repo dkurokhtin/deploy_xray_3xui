@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  xray:
+    image: teddysun/xray
+    container_name: xray
+    environment:
+      - XRAY_PRIVATE_KEY=${XRAY_PRIVATE_KEY}
+    volumes:
+      - ./xray/config.json:/etc/xray/config.json.template:ro
+      - certs:/certs:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command: "envsubst < /etc/xray/config.json.template > /etc/xray/config.json && xray -config /etc/xray/config.json"
+    ports:
+      - "443:443"
+    restart: unless-stopped
+
+  xui:
+    image: ghcr.io/mhsanaei/3x-ui:latest
+    container_name: 3x-ui
+    environment:
+      - MONGO_URI=${MONGODB_URI}
+      - REGION=${SERVER_REGION}
+    volumes:
+      - xui-db:/etc/x-ui
+      - certs:/certs:ro
+    ports:
+      - "2053:2053"
+    restart: unless-stopped
+
+volumes:
+  xui-db:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./3x-ui/db
+      o: bind
+  certs:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./certs
+      o: bind

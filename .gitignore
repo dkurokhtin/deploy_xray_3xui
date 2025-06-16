@@ -1,0 +1,6 @@
+node_modules/
+certs/*.crt
+certs/*.key
+3x-ui/db/*
+.env
+package-lock.json
